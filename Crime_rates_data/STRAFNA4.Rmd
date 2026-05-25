@@ -1,0 +1,1724 @@
+---
+title: "STRAFNA4"
+author: "Sofia, Sidse og Ida"
+date: "2026-05-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+These are all the libraries you need to have access to, for the scripts below
+
+if you dont have some of them just enter install.packages() with the library which you dont have installed yet.
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(gridExtra)
+```
+
+
+```{r}
+dir.create("data")
+
+"STRAFNA4" <- read.csv("data/STRAFNA4 dataset.csv")
+
+names(STRAFNA4)
+
+str(STRAFNA4)
+```
+
+## Including Plots
+
+Creating all the subgroups for the graphs and bar charts we wish to create with these statistics.
+```{r}
+Western_European <- STRAFNA4 %>%
+  filter(Origin %in% c("Germany", "France", "Austria", "Belgium", "Monaco", "Luxembourg", "Netherlands", "Switzerland" ))
+
+North_Europe <- STRAFNA4 %>% 
+  filter( Origin %in% c("Danmark", "Estonia", "Finland", "Iceland", "Ireland", "Latvia", "Lithuania", "Norway", "Sweeden", "Great Britain"))
+
+South_Europe <- STRAFNA4 %>%
+  filter(Origin %in% c("Bosnia and Herzegovina", "Croatia", "Greece", "Italy", "North Macedonia", "Portugal", "Spain"))
+
+Eastern_Europe <- STRAFNA4 %>%
+  filter( Origin %in% c("Russia", "Ukraine","Poland", "Romania", "Hungary", "Bulgaria" ))
+
+North_America <- STRAFNA4 %>%
+  filter(Origin %in% c("Canada", "USA"))
+
+Oceania <- STRAFNA4 %>%
+  filter(Origin %in% c("Australia"))
+
+East_Asia <- STRAFNA4 %>%
+  filter(Origin %in% c("China","Japan"))
+
+South_Asia <-  STRAFNA4 %>%
+  filter( Origin %in% c("India", "Pakistan", "Sri Lanka","Afghanistan", "Iran", ""))
+
+Southeast_Asia <- STRAFNA4 %>%
+  filter( Origin %in% c("Indonesia", "Vietnam", "Thailand", "The Phillipines","Myanmar"))
+
+Western_Asia <- STRAFNA4 %>%
+  filter( Origin %in% c("Jordan", "Lebanon","Iraq", "Isreal", "Turkey"))
+
+Northen_Africa <- STRAFNA4 %>%
+  filter(Origin %in% c("Egypt", "Morocco", "Algeria", "Tunisia"))
+
+Sub_Saharan_Africa <- STRAFNA4 %>%
+  filter(Origin %in% c("Kenya", "Ethiopia", "Tanzania", "South Africa","Nigeria","Ghana", "Uganda", "Somalia"))
+
+Latin_America <- STRAFNA4 %>% 
+  filter(Origin %in% c("Brazil", "Argentina", "Chile"))
+str(Latin_America)
+```
+
+
+We have decided to take the overall most known crimes, to make the graphs out of, so such as: Theft, Total Property crimes, Total Violent crimes, Manslaughter, Fraud, Vandalism and Euphoric drugs
+
+
+
+In the next scipts below, it will all be multiple bar chart data from the specific subgroups which have been created above.
+```{r}
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+options(scipen = 999)
+
+ggsave("Northen Africa Data grapf Theft.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Total property crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Northen Africa Data grapf Total property crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Total violent crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Northen Africa Data grapf Total violent crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Northen Africa Data grapf Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Northen Africa Data grapf Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Northen Africa Data grapf Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Euphoric drugs ", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Northen Africa Data grapf Euphoric drugss.png", width = 15, height = 8, dpi = 150)
+```
+
+How to make multiple bar chart data 
+```{r}
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Ejendomsforbrydelser i alt", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Voldsforbrydelser i alt", 
+    y = "Total", 
+    x = "Year",
+  )
+
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Manddrab", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Bedrageri", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Hærværk", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Northen_Africa[Northen_Africa$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Northern Africa Data Graph Lov om euforiserende stoffer", 
+    y = "Total", 
+    x = "Year",
+  )
+```
+
+
+
+
+
+```{r}
+
+ggplot(North_Europe[North_Europe$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_Europe[North_Europe$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph Total property crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on total property crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_Europe[North_Europe$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph on Total Violent crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_Europe[North_Europe$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph on Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_Europe[North_Europe$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_Europe[North_Europe$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph on Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_Europe[North_Europe$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_Europe Data Graph on Eurphoric drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North Europe Data graph on Eurphoric drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+
+ggplot(Oceania[Oceania$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Oceania[Oceania$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Ejendomsforbrydelser i alt", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Oceania[Oceania$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Voldsforbrydelser i alt", 
+    y = "Total", 
+    x = "Year",
+  )
+
+
+ggplot(Oceania[Oceania$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Manddrab", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Oceania[Oceania$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Bedrageri", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Oceania[Oceania$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Hærværk", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggplot(Oceania[Oceania$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Oceania Data Graph Lov om euforiserende stoffer", 
+    y = "Total", 
+    x = "Year",
+  )
+```
+
+
+
+
+```{r}
+
+ggplot(South_Asia[South_Asia$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Asia[South_Asia$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph on Total property crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Total Property crime .png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Asia[South_Asia$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph on Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Total Violent crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(South_Asia[South_Asia$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Asia[South_Asia$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Asia[South_Asia$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Asia[South_Asia$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Asia Data Graph on Euphoric drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Asia Data graph on Eurphoric drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+```{r}
+
+ggplot(South_Europe[South_Europe$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Europe[South_Europe$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Europe[South_Europe$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Europe[South_Europe$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Europe[South_Europe$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Europe[South_Europe$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(South_Europe[South_Europe$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "South_Europe Data Graph on Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("South Europe Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+
+```{r}
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Southeast_Asia[Southeast_Asia$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Southeast_Asia Data Graph on Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Southeast Asia Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+```{r}
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph on Fruad", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Fruad.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Sub_Saharan_Africa[Sub_Saharan_Africa$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Sub_Saharan_Africa Data Graph on Euphoric drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Sub Saharan Africa Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+
+
+```{r}
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph on Total Property crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Fruad.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_Asia[Western_Asia$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_Asia Data Graph on euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Asia Data graph on Eurphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+
+```{r}
+
+ggplot(Western_European[Western_European$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_European[Western_European$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_European[Western_European$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(Western_European[Western_European$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_European[Western_European$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_European[Western_European$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Western_European[Western_European$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Western_European Data Graph on Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Western Europe Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+
+```{r}
+
+ggplot(East_Asia[East_Asia$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(East_Asia[East_Asia$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph on Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(East_Asia[East_Asia$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph on total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(East_Asia[East_Asia$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(East_Asia[East_Asia$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(East_Asia[East_Asia$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(East_Asia[East_Asia$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "East_Asia Data Graph on Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("East Asia Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+```{r}
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Total Property crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph on Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Eastern_Europe[Eastern_Europe$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Eastern_Europe Data Graph pn Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Eastern Europe Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+
+```{r}
+
+ggplot(Latin_America[Latin_America$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Latin America Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Latin_America[Latin_America$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph on Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Latin America Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Latin_America[Latin_America$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Latin America Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Latin_America[Latin_America$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Latin America Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Latin_America[Latin_America$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Latin America Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Latin_America[Latin_America$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+
+ggsave("Latin America Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(Latin_America[Latin_America$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "Latin_America Data Graph on Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("Latin America Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+
+```{r}
+
+ggplot(North_America[North_America$Sentence == "Butikstyverier m.v.",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph Theft", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Theft.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_America[North_America$Sentence == "Ejendomsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph on Total Property Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Total Property Crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(North_America[North_America$Sentence == "Voldsforbrydelser i alt",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph on Total Violent Crimes", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Total Violent Crimes.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(North_America[North_America$Sentence == "Manddrab",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph Manslaughter", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Manslaughter.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_America[North_America$Sentence == "Bedrageri",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph on Fraud", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Fraud.png", width = 15, height = 8, dpi = 150)
+
+
+ggplot(North_America[North_America$Sentence == "Hærværk",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph Vandalism", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Vandalism.png", width = 15, height = 8, dpi = 150)
+
+ggplot(North_America[North_America$Sentence == "Lov om euforiserende stoffer",],
+       aes(x = as.factor(Year), y = Total, fill = Origin)) +
+ geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom"
+  ) +
+  labs(
+    title = "North_America Data Graph on Euphoric Drugs", 
+    y = "Total", 
+    x = "Year",
+  )
+
+ggsave("North America Data graph on Euphoric Drugs.png", width = 15, height = 8, dpi = 150)
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
