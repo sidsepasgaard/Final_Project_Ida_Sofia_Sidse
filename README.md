@@ -1,6 +1,6 @@
 # Final_Project_Ida_Sofia_Sidse
-
 About the Repository 
-Usage
+The Repository, is a compilation of different data sets, two of them are from Crime rates and convictions from different origins in Denmark. These have then been used in R Studio, to create graphs of the different conviction that we have deemed to be the most important.
+Usage, you may freely use this data, though you must give appropriate credit to this work if taken.
 Requirements
-License
+CC BY  License
