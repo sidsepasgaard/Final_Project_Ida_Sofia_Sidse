@@ -1,0 +1,250 @@
+---
+title: "Sentiment Analysis of Primeminister Speeches"
+authors: Ida, Sofia, Sidse
+output: html_document
+date: "2026-05-26"
+---
+Introduction: In this analysis we are examining the emotional value of danish prime ministers speeches. There is a speech from each term of office from the year 1999 to 2025. Only the relevant paragraph about immigrants is taken from each speech.
+
+##Step 1
+First install the needed packages. Danish AFINN dictionary is loaded directly from its source repository using a UTF-8 encoding configuration to preserve Danish special characters (æ,ø,å).
+
+```{r, message=FALSE, warning=FALSE}
+library(pdftools)
+library(tidytext)
+library(tidyverse)
+library(ggwordcloud)
+
+dir.create("data")
+
+#the Danish AFINN dataset
+url <- "https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-da-32.txt"
+
+danish_lexicon <- read.delim(url, header = FALSE, 
+  col.names = c("word", "value"), 
+  stringsAsFactors = FALSE,
+  encoding = "UTF-8")%>%
+  mutate(word = tolower(word))
+```
+
+##Step 2
+Have R find the needed pdf file, extract the needed words and make into a clean dataframe of words. 
+Using the function unnest_tokens() turns the text into lowercase single-word rows.
+By adding the filter(^[a-zæøå]+$) we ensure that it goes by the danish alphabet.
+
+
+Helle Thorning Schmidt speech from 2012
+```{r}
+file_to_read <- "data/Thorning_2012.pdf"
+raw_text <- pdftools::pdf_text(file_to_read)
+speech_dataframe <- data.frame(text = raw_text, stringsAsFactors = FALSE)
+cleaned_words <- speech_dataframe %>%
+  unnest_tokens(word, text) %>%
+  mutate(word = str_remove_all(word, "[[:punct:]]")) %>%
+  filter(str_detect(word, "^[a-zæøå]+$"))
+```
+
+##Step 3
+Here we isolate the emotional words that are present in both the text and the dictionary. With the print() we can see which words it found.
+
+```{r}
+matched_words <- cleaned_words %>%
+  inner_join(danish_lexicon, by = "word")
+
+print(matched_words %>% select(word, value) %>% distinct())
+```
+##Step 4
+Finally we can calculate the emotional metrics for the speech.  
+
+```{r}
+Thorning_summary <- matched_words %>%
+  summarize(File_Analyzed = basename(file_to_read),
+    Average_Sentiment  = mean(value),
+    Total_Scored_Words = n())
+print(Thorning_summary)
+```
+##Step 5
+Anders Fogh Rasmussen speech from 2005
+Finding the pdf file and cleaning the data
+```{r}
+file_to_read <- "data/Fogh_2005.pdf"
+raw_text <- pdftools::pdf_text(file_to_read)
+speech_dataframe <- data.frame(text = raw_text, stringsAsFactors = FALSE)
+
+cleaned_words <- speech_dataframe %>%
+  unnest_tokens(word, text) %>%
+  mutate(word = str_remove_all(word, "[[:punct:]]")) %>%
+  filter(str_detect(word, "^[a-zæøå]+$"))
+```
+
+##Step 6
+Isolating the emotional words
+```{r}
+matched_words <- cleaned_words %>%
+  inner_join(danish_lexicon, by = "word")
+
+print(matched_words %>% select(word, value) %>% distinct())
+```
+##Step 7
+Calculating the sentiment of the words
+
+```{r}
+Fogh_summary <- matched_words %>%
+  summarize(File_Analyzed = basename(file_to_read),
+    Average_Sentiment  = mean(value),
+    Total_Scored_Words = n())
+print(Fogh_summary)
+```
+##Step 8
+Lars Løkke Rasmussen speech from 2010
+Finding the pdf file and cleaning the data
+```{r}
+file_to_read <- "data/Løkke_2010.pdf"
+raw_text <- pdftools::pdf_text(file_to_read)
+speech_dataframe <- data.frame(text = raw_text, stringsAsFactors = FALSE)
+cleaned_words <- speech_dataframe %>%
+  unnest_tokens(word, text) %>%
+  mutate(word = str_remove_all(word, "[[:punct:]]")) %>%
+  filter(str_detect(word, "^[a-zæøå]+$"))
+```
+
+##Step 9
+Isolating the emotional words
+```{r}
+matched_words <- cleaned_words %>%
+  inner_join(danish_lexicon, by = "word")
+
+print(matched_words %>% select(word, value) %>% distinct())
+```
+##Step 10
+Calculating the sentiment of the words
+```{r}
+Løkke10_summary <- matched_words %>%
+  summarize(File_Analyzed = basename(file_to_read),
+    Average_Sentiment  = mean(value),
+    Total_Scored_Words = n())
+print(Løkke10_summary)
+```
+##Step 11
+Lars Løkke Rasmussens speech from 2017
+Finding the pdf file and cleaning the data
+```{r}
+file_to_read <- "data/Løkke_2017.pdf"
+raw_text <- pdftools::pdf_text(file_to_read)
+speech_dataframe <- data.frame(text = raw_text, stringsAsFactors = FALSE)
+cleaned_words <- speech_dataframe %>%
+  unnest_tokens(word, text) %>%
+  mutate(word = str_remove_all(word, "[[:punct:]]")) %>%
+  filter(str_detect(word, "^[a-zæøå]+$"))
+```
+
+##Step 12
+Isolating the emotional words
+```{r}
+matched_words <- cleaned_words %>%
+  inner_join(danish_lexicon, by = "word")
+
+print(matched_words %>% select(word, value) %>% distinct())
+```
+##Step 13
+Calculating the sentiment of the words
+```{r}
+Løkke17_summary <- matched_words %>%
+  summarize(File_Analyzed = basename(file_to_read),
+    Average_Sentiment  = mean(value),
+    Total_Scored_Words = n())
+print(Løkke17_summary)
+```
+##Step 14
+Mette Frederiksen speech from 2022
+Finding the pdf file and cleaning the data
+```{r}
+file_to_read <- "data/Frederiksen_2022.pdf"
+raw_text <- pdftools::pdf_text(file_to_read)
+speech_dataframe <- data.frame(text = raw_text, stringsAsFactors = FALSE)
+cleaned_words <- speech_dataframe %>%
+  unnest_tokens(word, text) %>%
+  mutate(word = str_remove_all(word, "[[:punct:]]")) %>%
+  filter(str_detect(word, "^[a-zæøå]+$"))
+```
+
+##Step 15
+Isolating the emotional words
+```{r}
+matched_words <- cleaned_words %>%
+  inner_join(danish_lexicon, by = "word")
+
+print(matched_words %>% select(word, value) %>% distinct())
+```
+##Step 16
+Calculating the sentiment of the words
+```{r}
+Frederiksen_summary <- matched_words %>%
+  summarize(File_Analyzed = basename(file_to_read),
+    Average_Sentiment  = mean(value),
+    Total_Scored_Words = n())
+print(Frederiksen_summary)
+```
+##Step 17
+Poul Nyrup Rasmussen speech from 1999
+Finding the pdf file and cleaning the data
+```{r}
+file_to_read <- "data/Nyrup_1999.pdf"
+raw_text <- pdftools::pdf_text(file_to_read)
+speech_dataframe <- data.frame(text = raw_text, stringsAsFactors = FALSE)
+cleaned_words <- speech_dataframe %>%
+  unnest_tokens(word, text) %>%
+  mutate(word = str_remove_all(word, "[[:punct:]]")) %>%
+  filter(str_detect(word, "^[a-zæøå]+$"))
+```
+
+##Step 18
+Isolating the emotional words
+```{r}
+matched_words <- cleaned_words %>%
+  inner_join(danish_lexicon, by = "word")
+
+print(matched_words %>% select(word, value) %>% distinct())
+```
+##Step 19
+Calculating the sentiment of the words
+```{r}
+Nyrup_summary <- matched_words %>%
+  summarize(File_Analyzed = basename(file_to_read),
+    Average_Sentiment  = mean(value),
+    Total_Scored_Words = n())
+print(Nyrup_summary)
+```
+##Step 20
+Here we make a graph showing each speech in comparison
+
+```{r final-comparison, message=FALSE, warning=FALSE}
+timeline <- bind_rows(
+  Thorning_summary, 
+  Fogh_summary, 
+  Løkke10_summary,
+  Løkke17_summary,
+  Frederiksen_summary,
+  Nyrup_summary) %>%
+  mutate(Year = c(2012, 2005, 2010, 2017, 2022, 1999), 
+         Prime_Minister = c("Thorning", "Fogh", "Løkke I", "Løkke II", "Frederiksen", "Nyrup")) %>%
+  select(Year, Prime_Minister, Average_Sentiment, Total_Scored_Words, File_Analyzed)
+
+knitr::kable(timeline, caption = "Historical Overview of Speech Sentiment")
+
+ggplot(timeline, aes(x = Year, y = Average_Sentiment)) +
+  geom_hline(yintercept = 0, color = "grey", linetype = "dashed", linewidth = 0.8) + 
+  geom_line(color = "lightblue", linewidth = 1.2) +
+  geom_point(color = "orange", size = 4) +
+  geom_text(aes(label = Prime_Minister), vjust = -1.5, size = 3.5, fontface = "bold") +
+  scale_x_continuous(breaks = seq(2000, 2026, by = 2)) +
+  expand_limits(y = c(min(timeline$Average_Sentiment) - 0.5, 
+                       max(timeline$Average_Sentiment) + 0.5)) +
+  labs(title = "Primeminister speeches (1999-2025)",
+    x = "Year of Speech",
+    y = "Average Sentiment Score") +
+  theme_minimal() +
+    theme(plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    plot.subtitle = element_text(color = "dimgrey", size = 10, hjust = 0.5),
+    panel.grid.minor = element_blank())
+```
